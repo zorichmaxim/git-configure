@@ -1,0 +1,28 @@
+<div class="container">
+  <header>
+    <h1 class="header_h1">PropertyCross</h1>
+    <button class="btn-faves" (click)="goToFaves()">Faves</button>
+    <h3 class="header-text">
+      Use the form below to search for houses to buy. You can search by place-name, postcode, or click
+      'My Location', to search in your current location
+    </h3>
+  </header>
+  <section class="search-section" >
+    <input name="text-field" placeholder="newcastle" [(ngModel)]="textField">
+    <button (click)="searchLocation(textField)">Go</button>
+    <button (click)="searchOnMyLocation()">My Location</button>
+  </section>
+  <section class="recent-search">
+    <h2>Recent search</h2>
+    <div class="inquiries">
+        <div *ngIf="recentSearches.length === 0">
+            No recent searches
+        </div>
+      <ng-container *ngFor="let search of recentSearches, let i = index">
+          <div>
+              Search #{{i+1}}: {{search.name}} ({{search.result}})
+          </div>
+      </ng-container>
+    </div>
+  </section>
+</div>

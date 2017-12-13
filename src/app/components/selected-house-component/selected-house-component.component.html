@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="nav-panel">
+        <button (click)="goBack()">Back</button>
+        <button (click)="goToFaves()">Faves</button>
+        <button (click)="addToFaves(dataOfHouse)" *ngIf="flagOffaves">Add to faves</button>
+    </div>
+    <div class="inform-window">
+        <div class="general-inform">
+            <p>{{dataOfHouse.price_formatted}}</p>
+            <p>{{dataOfHouse.title}}</p>
+        </div>
+        <div class="img">
+            <img src="{{dataOfHouse.img_url}}" alt="Img">
+        </div>
+        <div class="detail-inform">
+            <p>{{dataOfHouse.bedroom_number}} bedrooms,{{dataOfHouse.bathroom_number}} bathrooms</p>
+            <p>{{dataOfHouse.summary}}</p>
+        </div>
+    </div>
+</div>

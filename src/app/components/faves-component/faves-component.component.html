@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="top-panel">
+        <button class="goBackBtn" (click)="goBack()">Back</button>
+        <h1>Favourites</h1>
+    </div>
+    <div class="massage" *ngIf="listOfFaves.length === 0">
+        You have not added any properties to your favourites
+    </div>
+    <ng-container *ngFor="let house of listOfFaves, let i = index">
+        <div class="house">
+            <div class="nav-panel">
+                <button (click)="removeFromFaves(i)">Remove from faves</button>
+            </div>
+            <div class="inform-window">
+                <div class="general-inform">
+                    <p>{{house.price_formatted}}</p>
+                    <p>{{house.title}}</p>
+                </div>
+                <div class="img">
+                    <img src="{{house.img_url}}" alt="Img">
+                </div>
+                <div class="detail-inform">
+                    <p>{{house.bedroom_number}} bedrooms,{{house.bathroom_number}} bathrooms</p>
+                    <p>{{house.summary}}</p>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

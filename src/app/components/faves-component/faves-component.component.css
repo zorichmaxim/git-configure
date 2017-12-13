@@ -1,0 +1,28 @@
+.top-panel {
+    position: relative;
+}
+
+h1 {
+    text-align: center;
+}
+
+.goBackBtn {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.house {
+    font-family: Arial;
+    font-size: 24px;
+    border: solid 2px red;
+    border-radius: 30px;
+    margin: 50px;
+    padding: 25px;
+}
+
+.massage {
+    font-family: Arial;
+    font-size: 24px;
+    text-align: center;
+}
