@@ -6,12 +6,15 @@ export class ListSearchesService {
 
   constructor() { }
 
-  public setSearch(dataOfSearch):void {
-        this.listOfSearches.push(dataOfSearch);
+  public setSearch(dataOfSearch): void {
+        this.listOfSearches.unshift(dataOfSearch);
   }
 
   public getListOfSearches() {
         return this.listOfSearches;
   }
 
+  public removeSearch (pos): void{
+        this.listOfSearches.splice(pos, 1);
+  }
 }

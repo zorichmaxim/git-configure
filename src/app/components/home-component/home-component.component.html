@@ -14,12 +14,12 @@
   </section>
   <section class="recent-search">
     <h2>Recent search</h2>
-    <div class="inquiries">
-        <div *ngIf="recentSearches.length === 0">
+    <div  class="inquiries">
+        <div class="massage-recent-search"  *ngIf="recentSearches.length === 0">
             No recent searches
         </div>
       <ng-container *ngFor="let search of recentSearches, let i = index">
-          <div>
+          <div (click)="goToRecentSearch(search, i)" class="recent-search-result">
               Search #{{i+1}}: {{search.name}} ({{search.result}})
           </div>
       </ng-container>

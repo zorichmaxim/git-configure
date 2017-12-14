@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { ListSearchesService } from "../../services/list-searches.service"
+import { isNullOrUndefined } from "util";
 
 @Component({
     selector: 'app-home-component',
@@ -24,6 +25,15 @@ export class HomeComponentComponent implements OnInit {
 
     public goToFaves(): void {
         this.router.navigate(["faves-component"]);
+    }
+
+    public goToRecentSearch(searchInform, index): void {
+        this.list.removeSearch(index);
+        if (searchInform.name === undefined ) {
+            this.searchOnMyLocation();
+        } else {
+            this.searchLocation(searchInform.name);
+        }
     }
 
     ngOnInit(): void {

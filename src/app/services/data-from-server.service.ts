@@ -12,6 +12,6 @@ export class DataFromServerService {
 
   public getData(addLocation: string = 'centre_point=51.684183,-3.431481') {
     addLocation === 'centre_point=51.684183,-3.431481' ? addLocation = 'centre_point=51.684183,-3.431481' : addLocation = "place_name=" + addLocation;
-    return this.jsonp.request(this.baseUrl+addLocation, {method: 'GET'}).map((res: Response) => res.json());
+    return this.jsonp.request(this.baseUrl + addLocation, {method: 'GET'}).map((res: Response) => res.json());
   }
 }

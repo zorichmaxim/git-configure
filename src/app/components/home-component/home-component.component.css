@@ -40,6 +40,27 @@ header {
     margin-bottom: 10px;
 }
 
+.recent-search-result {
+    border: solid 2px blue;
+    border-radius: 20px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.recent-search-result:hover {
+    background: rgba(215, 241, 44, 0.08);
+    box-shadow: none;
+    cursor: pointer;
+    border: solid 2px green;
+}
+
+.massage-recent-search {
+    border: solid 2px blue;
+    border-radius: 20px;
+    margin: 5px;
+    padding: 5px;
+}
+
 .inquiries {
     border: solid 2px blue;
     border-radius: 25px;

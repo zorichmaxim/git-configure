@@ -19,7 +19,7 @@ export class SearchComponentComponent implements OnInit {
     public limit: number = 10;
     public btnLoadMoreStatus: boolean = false;
     public search = {
-        name: "",
+        name: " ",
         result: 0
     };
 
@@ -52,6 +52,7 @@ export class SearchComponentComponent implements OnInit {
 
     ngOnInit(): void {
         this.data.getData(this.additionalUrl).subscribe((data) => {
+            console.log(data);
             this.dataFromServer = data.response.listings;
             this.search.name = this.additionalUrl;
             this.search.result = this.dataFromServer.length;
