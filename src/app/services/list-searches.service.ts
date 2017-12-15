@@ -17,4 +17,8 @@ export class ListSearchesService {
   public removeSearch (pos): void{
         this.listOfSearches.splice(pos, 1);
   }
+
+  public clearListOfSearches() {
+        this.listOfSearches = [];
+  }
 }

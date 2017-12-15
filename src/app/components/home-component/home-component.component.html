@@ -15,8 +15,11 @@
   <section class="recent-search">
     <h2>Recent search</h2>
     <div  class="inquiries">
-        <div class="massage-recent-search"  *ngIf="recentSearches.length === 0">
+        <div class="massage-recent-search"  *ngIf="recentSearches.length === 0 && errMassage === undefined">
             No recent searches
+        </div>
+        <div class="massage-recent-search"  *ngIf="errMassage !== undefined">
+            {{errMassage}}
         </div>
       <ng-container *ngFor="let search of recentSearches, let i = index">
           <div (click)="goToRecentSearch(search, i)" class="recent-search-result">

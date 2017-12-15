@@ -21,6 +21,7 @@ const appRoutes: Routes =[
   {path: 'search-component/:additionalUrl', component: SearchComponentComponent},
   {path: 'selected-house-component', component: SelectedHouseComponentComponent},
   {path: 'faves-component', component: FavesComponentComponent},
+  {path: 'home-component', component: HomeComponentComponent},
   {path: '', component: HomeComponentComponent},
 ];
 

@@ -51,14 +51,25 @@ export class SearchComponentComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.data.clearErrMassage();
         this.data.getData(this.additionalUrl).subscribe((data) => {
             console.log(data);
+            this.data.setErrMassage(data.response.application_response_code, data);
+            if(this.data.getErrMassage()!){
+                this.router.navigate(["home-component"]);
+            }
             this.dataFromServer = data.response.listings;
             this.search.name = this.additionalUrl;
             this.search.result = this.dataFromServer.length;
             this.list.setSearch(this.search);
             console.log(this.search);
-        })
+        });
+        setTimeout(() => {
+            if (this.dataFromServer === undefined) {
+                this.data.setErrMassage("999");
+                this.router.navigate(["home-component"]);
+            }
+        }, 5000);
     };
 }
 

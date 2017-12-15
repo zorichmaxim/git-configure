@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { ListSearchesService } from "../../services/list-searches.service"
+import { DataFromServerService } from "../../services/data-from-server.service";
 import { isNullOrUndefined } from "util";
+
 
 @Component({
     selector: 'app-home-component',
@@ -10,9 +12,11 @@ import { isNullOrUndefined } from "util";
 })
 export class HomeComponentComponent implements OnInit {
     public textField: string;
+    public errMassage: string;
     public recentSearches;
 
-    constructor(private router: Router, public list: ListSearchesService) {
+
+    constructor(private router: Router, public list: ListSearchesService, public data: DataFromServerService) {
     }
 
     public searchOnMyLocation(): void {
@@ -37,6 +41,11 @@ export class HomeComponentComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.errMassage = this.data.getErrMassage();
         this.recentSearches = this.list.getListOfSearches();
+        if (this.errMassage !== undefined) {
+            this.recentSearches = "";
+            this.list.clearListOfSearches();
+        }
     }
 }
