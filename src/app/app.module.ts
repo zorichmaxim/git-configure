@@ -4,26 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { JsonpModule, Jsonp, Response} from '@angular/http';
 
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { SearchComponentComponent } from "./components/search-component/search-component.component";
 import { HomeComponentComponent } from "./components/home-component/home-component.component";
 import { SelectedHouseComponentComponent } from './components/selected-house-component/selected-house-component.component';
 import { FavesComponentComponent } from './components/faves-component/faves-component.component';
-import { SelectedHouseService } from "./services/selected-house.service";
-import { DataFromServerService } from "./services/data-from-server.service";
-import { ListFavesService } from "./services/list-faves.service";
-import { ListSearchesService } from "./services/list-searches.service";
+import { SelectedHouseService } from "./services/selected-house-service/selected-house.service";
+import { DataFromServerService } from "./services/data-from-server-service/data-from-server.service";
+import { ListFavesService } from "./services/list-faves-service/list-faves.service";
+import { ListSearchesService } from "./services/list-searches-service/list-searches.service";
+import { appRoutes } from "./app.routes"
 
-
-const appRoutes: Routes =[
-  {path: 'search-component', component: SearchComponentComponent},
-  {path: 'search-component/:additionalUrl', component: SearchComponentComponent},
-  {path: 'selected-house-component', component: SelectedHouseComponentComponent},
-  {path: 'faves-component', component: FavesComponentComponent},
-  {path: 'home-component', component: HomeComponentComponent},
-  {path: '', component: HomeComponentComponent},
-];
 
 @NgModule({
   declarations: [

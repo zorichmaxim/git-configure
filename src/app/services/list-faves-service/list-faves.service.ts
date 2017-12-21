@@ -14,4 +14,8 @@ export class ListFavesService {
     public getData() {
         return this.listOfFaves;
     }
+
+    public deleteElementFromList(pos: number): void{
+        this.listOfFaves.splice(pos,1);
+    }
 }

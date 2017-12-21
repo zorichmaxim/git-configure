@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectedHouseService } from "../../services/selected-house.service"
-import { ListFavesService } from "../../services/list-faves.service"
+import { SelectedHouseService } from "../../services/selected-house-service/selected-house.service"
+import { ListFavesService } from "../../services/list-faves-service/list-faves.service"
 import { Router } from "@angular/router";
+import { ListSearchesService } from "../../services/list-searches-service/list-searches.service";
+import { Location } from '@angular/common'
+
 
 @Component({
   selector: 'app-selected-house-component',
@@ -10,18 +13,21 @@ import { Router } from "@angular/router";
 })
 export class SelectedHouseComponentComponent implements OnInit {
   public dataOfHouse = {};
-  public flagOffaves: boolean;
+  public flagOfFaves: boolean;
 
-  constructor(private router: Router, public selected: SelectedHouseService, public list: ListFavesService ) {
-      this.flagOffaves = true;
+  constructor(private router: Router,
+              public selected: SelectedHouseService,
+              public list: ListFavesService,
+              public _location: Location) {
+      this.flagOfFaves = true;
   }
 
   public goBack(): void {
-        window.history.back();
+      this._location.back();
   }
 
   public addToFaves(dataOfHouse) {
-      this.flagOffaves = false;
+      this.flagOfFaves = false;
       this.list.setData(dataOfHouse);
   }
 

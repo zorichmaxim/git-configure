@@ -11,6 +11,5 @@ export class SelectedHouseService {
 
   public setData(house): void{
     this.selectedHouseData = house;
-    console.log(this.selectedHouseData);
-  }
+  };
 }

@@ -1,24 +1,21 @@
-<div class="loading" *ngIf="!dataFromServer">Loading...</div>
-<div *ngIf="dataFromServer">
-    <div class="top-panel">
-        <button class="backButton" (click)="goBack()">Back</button>
-        <div> {{limit}} of {{dataFromServer?.length}} matches</div>
-    </div>
-    <div class="displayInform">
-        <ng-container *ngFor="let house of dataFromServer; let i = index ">
-            <div class="house" *ngIf="i<limit" (click)="selectHouse(house)">
-                <div class="imageDiv">
-                    <img src="{{house.img_url}}" alt="img">
-                </div>
-                <div class="descriptionDiv">
-                    <p>Price of house: {{house.price_formatted}}</p>
-                    <p>{{house.summary}}</p>
-                </div>
+<div class="top-panel">
+    <button class="backButton" (click)="goBack()">Back</button>
+    <div> {{limit}} of {{dataFromServer?.length}} matches</div>
+</div>
+<div class="displayInform">
+    <ng-container *ngFor="let house of dataFromServer; let i = index ">
+        <div class="house" *ngIf="i<limit" (click)="selectHouse(house)">
+            <div class="imageDiv">
+                <img src="{{house.img_url}}" alt="img">
             </div>
-        </ng-container>
-    </div>
-    <div class="loadMoreBtn">
-        <button (click)="loadMore()" [disabled]="btnLoadMoreStatus">Load More</button>
-    </div>
+            <div class="descriptionDiv">
+                <p>Price of house: {{house.price_formatted}}</p>
+                <p>{{house.summary}}</p>
+            </div>
+        </div>
+    </ng-container>
+</div>
+<div class="loadMoreBtn">
+    <button (click)="loadMore()" [disabled]="btnLoadMoreStatus">Load More</button>
 </div>
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ListFavesService} from "../../services/list-faves.service"
+import { ListFavesService} from "../../services/list-faves-service/list-faves.service"
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-faves-component',
@@ -7,15 +8,15 @@ import { ListFavesService} from "../../services/list-faves.service"
   styleUrls: ['faves-component.component.css']
 })
 export class FavesComponentComponent implements OnInit {
-    public listOfFaves;
+    public listOfFaves: Array<any>;
 
-  constructor(public list: ListFavesService) { }
+  constructor(public list: ListFavesService, private _location: Location) { }
 
   public goBack(): void {
-        window.history.back();
+        this._location.back();
   }
-  public removeFromFaves(pos): void {
-      this.listOfFaves.splice(pos,1);
+  public removeFromFaves(pos: number): void {
+      this.list.deleteElementFromList(pos);
   }
 
   ngOnInit() {

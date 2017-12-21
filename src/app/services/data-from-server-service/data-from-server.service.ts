@@ -7,14 +7,22 @@ import 'rxjs/add/operator/map';
 export class DataFromServerService {
     private errMassage: string;
     public arrCodeStatus: Array<string> = ["100", "101", "102", "200", "202"];
+    public dataFromServer: Array <any>;
     constructor(private http: HttpClient, private jsonp: Jsonp) {
     }
 
     public baseUrl = 'http://api.nestoria.co.uk/api?country=uk&pretty=1&encoding=json&listing_type=buy&page=1&callback=JSONP_CALLBACK&action=search_listings&';
 
-    public getData(addLocation: string = 'centre_point=51.684183,-3.431481') {
-        addLocation === 'centre_point=51.684183,-3.431481' ? addLocation = 'centre_point=51.684183,-3.431481' : addLocation = "place_name=" + addLocation;
+    public makeRequestForData(addLocation: string) {
         return this.jsonp.request(this.baseUrl + addLocation, {method: 'GET'}).map((res: Response) => res.json());
+    }
+
+    public setDataFromServer(data?): void{
+        this.dataFromServer = data.response.listings;
+    }
+
+    public getDataFromServer(): Array<any> {
+        return this.dataFromServer;
     }
 
     public setErrMassage(codeStatus: string = "", data?): void {
@@ -33,7 +41,11 @@ export class DataFromServerService {
         return this.errMassage;
     }
 
-    public clearErrMassage () {
+    public clearErrMassage(): void{
         this.errMassage = undefined;
+    }
+
+    public calearData(): void{
+        this.dataFromServer = undefined;
     }
 }
