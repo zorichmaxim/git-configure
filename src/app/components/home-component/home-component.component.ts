@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { ListSearchesService } from "../../services/list-searches-service/list-searches.service"
 import { DataFromServerService } from "../../services/data-from-server-service/data-from-server.service";
 import { Subscription } from 'rxjs/Subscription';
+import { TimerObservable } from "rxjs/observable/TimerObservable";
+import { Observable } from "rxjs";
 
 @Component({
     selector: 'app-home-component',
@@ -12,7 +14,8 @@ import { Subscription } from 'rxjs/Subscription';
 export class HomeComponentComponent implements OnInit {
     public textField: string;
     public errMassage: string;
-    public timerId;
+    public timerSubscription: Subscription;
+    private timerOfGettingData: Observable<number>;
     public isSearchInProgress: boolean;
     public recentSearches = [];
     public coords: string;
@@ -55,18 +58,15 @@ export class HomeComponentComponent implements OnInit {
         }
     }
 
+    private configSearchObj(addUrl: string, data: any): void {
+        addUrl.search(/centre_point=/i) !== -1 ? this.search.name = "My Location" : this.search.name = addUrl.slice(11);
+        this.search.result = data.response.listings.length;
+    }
+
     private configOfData(data: any, addUrl: string): void {
         this.data.setDataFromServer(data);
         this.data.setErrMassage(data.response.application_response_code, data);
-
-        if (addUrl.search(/centre_point=/i) !== -1){
-            this.search.name = "My Location";
-            this.search.result = data.response.listings.length;
-        } else {
-            this.search.name = addUrl.slice(11);
-            this.search.result = data.response.listings.length;
-        }
-
+        this.configSearchObj(addUrl, data);
         this.list.setSearch(this.search);
     }
 
@@ -89,7 +89,7 @@ export class HomeComponentComponent implements OnInit {
         this.isSearchInProgress = false;
         this.data.clearErrMassage();
         this.dataSubscription = this.data.makeRequestForData(addUrl).subscribe((data) => {
-            clearTimeout(this.timerId);
+            this.timerSubscription.unsubscribe();
             this.configOfData(data, addUrl);
 
             if (!this.data.getErrMassage()) {
@@ -99,13 +99,15 @@ export class HomeComponentComponent implements OnInit {
             }
         });
 
-        this.timerId = setTimeout(() => {
+        this.timerOfGettingData = TimerObservable.create(5000);
+        this.timerSubscription = this.timerOfGettingData.subscribe(() => {
             this.dataSubscription.unsubscribe();
             if (this.data.getDataFromServer() === undefined) {
                 this.data.setErrMassage("999");
                 this.goToErrorStatement();
             }
-        }, 5000);
+            this.timerSubscription.unsubscribe();
+        });
     }
 
     ngOnInit(): void {
