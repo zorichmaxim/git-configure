@@ -1,21 +1,43 @@
 import { Injectable } from '@angular/core';
+import { LocalStorageService } from '../local-storage-service/local-storage.service';
 
 @Injectable()
 export class ListFavesService {
     public listOfFaves = [];
 
-    constructor() {
+    constructor(
+        private localstorage: LocalStorageService
+    ) {
+        !localstorage.haslocalStorage('listOfFaves') ? this.listOfFaves = [] : this.listOfFaves = localstorage.getData('listOfFaves');
     }
 
     public setData(data): void {
         this.listOfFaves.push(data);
+        this.localstorage.setData('listOfFaves', this.listOfFaves)
     }
 
     public getData() {
         return this.listOfFaves;
     }
 
-    public deleteElementFromList(pos: number): void{
+    public deleteElementFromList(house: any): void{
+        let pos = this.listOfFaves.findIndex(element => {
+            if(element.lister_url.slice(34,59) === house.lister_url.slice(34,59)){
+                return true;
+            }
+        });
         this.listOfFaves.splice(pos,1);
+        this.localstorage.setData('listOfFaves', this.listOfFaves)
+    }
+
+    public chekingOfUniq(house: any): boolean{
+        let result: boolean = false;
+        this.listOfFaves.forEach(element => {
+            if(element.lister_url.slice(34,59) === house.lister_url.slice(34,59)){
+                result = true;
+            }
+        })
+        return result;
     }
 }
+

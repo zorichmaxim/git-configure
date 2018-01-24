@@ -6,19 +6,20 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DataFromServerService {
     private errMassage: string;
-    public arrCodeStatus: Array<string> = ["100", "101", "102", "200", "202"];
-    public dataFromServer: Array <any>;
-    constructor(private http: HttpClient, private jsonp: Jsonp) {
+    public arrCodeStatus: Array <string> = ["100", "101", "102", "200", "202"];
+    public dataFromServer: Array <any> = [];
+    constructor(
+        private http: HttpClient,
+        private jsonp: Jsonp
+    ) {}
+
+    public makeRequestForData(addLocation: string, page:number = 1) {
+        let url = `http://api.nestoria.co.uk/api?country=uk&pretty=1&encoding=json&listing_type=buy&page=${page}&callback=JSONP_CALLBACK&action=search_listings&${addLocation}`
+        return this.jsonp.request(url, {method: 'GET'}).map((res: Response) => res.json());
     }
 
-    public baseUrl = 'http://api.nestoria.co.uk/api?country=uk&pretty=1&encoding=json&listing_type=buy&page=1&callback=JSONP_CALLBACK&action=search_listings&';
-
-    public makeRequestForData(addLocation: string) {
-        return this.jsonp.request(this.baseUrl + addLocation, {method: 'GET'}).map((res: Response) => res.json());
-    }
-
-    public setDataFromServer(data?): void{
-        this.dataFromServer = data.response.listings;
+    public setDataFromServer(listOfHouse: any): void{
+        this.dataFromServer = this.dataFromServer.concat(listOfHouse);
     }
 
     public getDataFromServer(): Array<any> {
@@ -45,7 +46,7 @@ export class DataFromServerService {
         this.errMassage = undefined;
     }
 
-    public calearData(): void{
-        this.dataFromServer = undefined;
+    public clearData(): void{
+        this.dataFromServer = [];
     }
 }

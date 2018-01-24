@@ -42,6 +42,11 @@ header {
     margin: 10px;
 }
 
+.error-message-section {
+    margin: 5px;
+    padding: 5px;
+}
+
 .recent-search {
     margin-bottom: 10px;
 }

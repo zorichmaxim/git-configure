@@ -1,10 +1,11 @@
 <div class="top-panel">
-    <button class="backButton" (click)="goBack()">Back</button>
-    <div> {{limit}} of {{dataFromServer?.length}} matches</div>
+    <button class="button" (click)="goBack()">Back</button>
+    <div class="header"> <p>{{curResults}} of {{totalResults}} matches</p></div>
+    <button class="button" (click)="goToFaves()">Faves</button>
 </div>
 <div class="displayInform">
     <ng-container *ngFor="let house of dataFromServer; let i = index ">
-        <div class="house" *ngIf="i<limit" (click)="selectHouse(house)">
+        <div class="house" (click)="selectHouse(house)">
             <div class="imageDiv">
                 <img src="{{house.img_url}}" alt="img">
             </div>

@@ -1,16 +1,14 @@
 .top-panel {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   position: relative;
   margin: 20px;
   font-family: Arial;
 }
 
-.backButton {
-  display: block;
-  position: absolute;
-  left: 30px;
+.button {
+margin: 15px;
 }
 
 img {

@@ -10,23 +10,26 @@
             </h3>
         </header>
         <section class="search-section">
-            <input (keyup.enter)="searchLocation(textField)" name="text-field" placeholder="newcastle"
-                   [(ngModel)]="textField">
-            <button (click)="searchLocation(textField)">Go</button>
+            <input (keyup.enter)="searchLocation(cityTextField)" name="text-field" placeholder="Enter the City"
+                   [(ngModel)]="cityTextField">
+            <button (click)="searchLocation(cityTextField)">Go</button>
             <button (click)="searchOnMyLocation()">My Location</button>
         </section>
+        <section class="error-message-section" *ngIf="errMassage">
+            <h2>Error message</h2>
+            <div class="massage-recent-search">
+                {{errMassage}}
+            </div>
+        </section>
         <section class="recent-search">
-            <h2>Recent search</h2>
+            <h2>Recent searches</h2>
             <div class="inquiries">
                 <div class="massage-recent-search" *ngIf="isNoRecentSearches">
                     No recent searches
                 </div>
-                <div class="massage-recent-search" *ngIf="errMassage !== undefined">
-                    {{errMassage}}
-                </div>
                 <ng-container *ngFor="let search of recentSearches, let i = index">
                     <div (click)="goToRecentSearch(search, i)" class="recent-search-result">
-                        Search #{{i+1}}: {{search.name}} ({{search.result}})
+                        Search #{{i+1}}: {{search.textOfRequest}} ({{search.result}})
                     </div>
                 </ng-container>
             </div>

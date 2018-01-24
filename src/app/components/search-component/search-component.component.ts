@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { DataFromServerService } from "../../services/data-from-server-service/data-from-server.service";
-import { Router } from "@angular/router";
-import { SelectedHouseService } from "../../services/selected-house-service/selected-house.service"
-import { Location } from '@angular/common'
+import { DataFromServerService } from '../../services/data-from-server-service/data-from-server.service';
+import { Router } from '@angular/router';
+import { SelectedHouseService } from '../../services/selected-house-service/selected-house.service';
+import { Location } from '@angular/common';
+import { ListSearchesService } from '../../services/list-searches-service/list-searches.service';
+import { Subscription, Observable } from 'rxjs';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
+
 
 
 @Component({
@@ -14,18 +18,28 @@ import { Location } from '@angular/common'
 export class SearchComponentComponent implements OnInit {
 
     public dataFromServer: Array <any>;
-    public limit: number = 10;
+    public totalResults: number;
+    public curResults: number;
     public btnLoadMoreStatus: boolean = false;
+    public dataSubscription: Subscription;
+    public timerSubscription: Subscription;
+    private timerOfGettingData: Observable<number>;
+    private flagOfRecivingNewData: any;
 
-    constructor(public data: DataFromServerService,
-                public selected: SelectedHouseService,
-                private router: Router,
-                private _location: Location
-    ) {
-    }
+    constructor(
+        private data: DataFromServerService,
+        private selected: SelectedHouseService,
+        private listOfSearches: ListSearchesService,
+        private router: Router,
+        private _location: Location
+    ) {}
 
     public goBack(): void {
         this._location.back();
+    }
+
+    public goToFaves(): void {
+        this.router.navigate(["faves-component"]);
     }
 
     public selectHouse(house): void {
@@ -33,18 +47,45 @@ export class SearchComponentComponent implements OnInit {
         this.router.navigate(["selected-house-component"]);
     }
 
-    public loadMore(): void {
-        if (this.limit + 10 >= this.dataFromServer.length) {
-            this.limit = this.dataFromServer.length;
+    private setBtnLoadMoreStatus(): void {
+        if (this.data.getDataFromServer().length !== this.listOfSearches.getLastSearch().result) {
+            this.btnLoadMoreStatus = false;
+        } else {
             this.btnLoadMoreStatus = true;
-        }
-        else {
-            this.limit += 10;
         }
     }
 
+    public loadMore(): void {
+        this.listOfSearches.getLastSearch().curPage++;
+        this.btnLoadMoreStatus = true;
+        let {unformatedUrl, curPage} = this.listOfSearches.getLastSearch();
+        console.log(unformatedUrl,curPage)
+        this.dataSubscription = this.data.makeRequestForData(unformatedUrl,curPage).subscribe((data,{response:{ listings }} = data) => {;
+            console.log(data);
+            this.data.setDataFromServer(listings);
+            this.dataFromServer = this.data.getDataFromServer();
+            this.curResults = this.dataFromServer.length;
+            this.setBtnLoadMoreStatus();
+            this.timerSubscription.unsubscribe();
+            this.dataSubscription.unsubscribe();
+        });
+
+        this.timerOfGettingData = TimerObservable.create(5000);
+        this.timerSubscription = this.timerOfGettingData.subscribe(() => {
+            this.dataSubscription.unsubscribe();
+            if (!this.flagOfRecivingNewData) {
+                this.data.setErrMassage("999");
+                this.router.navigate(['home-component'])
+            }
+            this.timerSubscription.unsubscribe();
+        });
+    }
+
     ngOnInit(): void {
+        this.setBtnLoadMoreStatus();
         this.dataFromServer = this.data.getDataFromServer();
+        this.curResults = this.data.getDataFromServer().length;
+        this.totalResults = this.listOfSearches.getLastSearch().result;
         this.data.clearErrMassage();
     };
 }
