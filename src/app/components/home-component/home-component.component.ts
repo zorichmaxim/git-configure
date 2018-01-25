@@ -5,15 +5,16 @@ import { DataFromServerService } from '../../services/data-from-server-service/d
 import { Subscription } from 'rxjs/Subscription';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { Observable } from 'rxjs';
+import { RedirectionService } from '../../services/redirection-service/redirection.service';
 
-const myLocation: string = 'My Location'
+const myLocation: string = 'My Location';
 
 @Component({
     selector: 'app-home-component',
     templateUrl: './home-component.component.html',
     styleUrls: ['./home-component.component.css']
 })
-export class HomeComponentComponent implements OnInit {
+export class HomeComponent implements OnInit {
     public cityTextField: string;
     public errMassage: string;
     public timerSubscription: Subscription;
@@ -23,8 +24,8 @@ export class HomeComponentComponent implements OnInit {
     public coords: string;
     private dataSubscription: Subscription;
     public search = {
-        textOfRequest: "",
-        unformatedUrl: "",
+        textOfRequest: '',
+        unformatedUrl: '',
         result: 0,
         total_pages: 0,
         curPage: 1
@@ -33,11 +34,12 @@ export class HomeComponentComponent implements OnInit {
     constructor(
         private router: Router,
         private list: ListSearchesService,
-        private data: DataFromServerService
+        private data: DataFromServerService,
+        private redirectionService: RedirectionService,
     ) {}
 
     public goToFaves(): void {
-        this.router.navigate(['faves-component']);
+        this.redirectionService.redirectToFaves();
     }
 
     public goToRecentSearch(searchInform, index): void {
@@ -55,8 +57,8 @@ export class HomeComponentComponent implements OnInit {
 
     public searchLocation(param: string = 'newcastle'): void {
         param = param.trim();
-        if (param == "") {
-            param = "newcastle"
+        if (param === '') {
+            param = 'newcastle';
         }
         param = `place_name=${param}`;
         this.makeRequest(param);
@@ -66,18 +68,18 @@ export class HomeComponentComponent implements OnInit {
         return this.recentSearches.length === 0 && !this.errMassage;
     }
 
-    private configSearchObj(addUrl: string, {response:{total_results,total_pages }}): void {
+    private configSearchObj(addUrl: string, {response: {total_results, total_pages }}): void {
         addUrl.search(/centre_point=/i) !== -1 ? this.search.textOfRequest = myLocation : this.search.textOfRequest = addUrl.slice(11);
         this.search.unformatedUrl = addUrl;
         this.search.result = total_results - 1;
         this.search.total_pages = total_pages + 1;
     }
 
-    private configDataOfResponse(data: any, addUrl: string,{response:{application_response_code,listings}} = data): void {
+    private configDataOfResponse(data: any, addUrl: string, {response: {application_response_code, listings}} = data): void {
         this.data.setDataFromServer(listings);
         this.data.setErrMassage(application_response_code, data);
         this.configSearchObj(addUrl, data);
-        if(!this.data.getErrMassage()) {
+        if (!this.data.getErrMassage()) {
             this.list.setSearch(this.search);
         }
     }
@@ -89,7 +91,7 @@ export class HomeComponentComponent implements OnInit {
     }
 
     public setCurrentCoords(): void {
-        navigator.geolocation.getCurrentPosition(({coords:{latitude,longitude}}) => {
+        navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
             this.coords = `centre_point=${latitude},${longitude}`;
             // //this.coords = "centre_point=51.684183,-3.431481" //for testing My Location Button
         });
@@ -103,7 +105,7 @@ export class HomeComponentComponent implements OnInit {
             this.configDataOfResponse(data, addUrl);
 
             if (!this.data.getErrMassage()) {
-                this.router.navigate(["search-component"]);
+                this.redirectionService.redirectToSearch();
             } else {
                 this.showException(this.data.getErrMassage());
             }
@@ -114,7 +116,7 @@ export class HomeComponentComponent implements OnInit {
             this.dataSubscription.unsubscribe();
             console.log(this.data.getDataFromServer());
             if (!this.data.getDataFromServer().length) {
-                this.data.setErrMassage("999");
+                this.data.setErrMassage('999');
                 this.showException(this.data.getErrMassage());
             }
             this.timerSubscription.unsubscribe();

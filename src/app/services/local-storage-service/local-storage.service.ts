@@ -15,7 +15,7 @@ export class LocalStorageService {
         localStorage.removeItem(`${storageName}`);
     }
 
-    public haslocalStorage(storageName:string){
-        return localStorage[storageName]
+    public haslocalStorage(storageName: string) {
+        return localStorage[storageName];
     }
 }

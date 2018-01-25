@@ -1,21 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { LocalStorageService } from '../local-storage-service/local-storage.service';
 
 @Injectable()
-export class ListSearchesService {
-    public listOfSearches = []
+export class ListSearchesService implements OnInit {
+    public listOfSearches = [];
 
-    constructor(
-        private localstorage: LocalStorageService
-    ) {
-        !localstorage.haslocalStorage('listOfSearches') ? this.listOfSearches = [] : this.listOfSearches = localstorage.getData('listOfSearches');
+    constructor(private localstorage: LocalStorageService) {}
+
+    ngOnInit(): void {
+        this.checkLocalStorageState();
     }
-
 
     public setSearch(dataOfSearch): void {
         this.listOfSearches.unshift(dataOfSearch);
         this.localstorage.setData('listOfSearches', this.listOfSearches.slice(0, 5));
-
     }
 
     public getListOfSearches(): Array<Object> {
@@ -32,5 +30,11 @@ export class ListSearchesService {
 
     public getLastSearch(): any {
         return this.listOfSearches[0];
+    }
+
+    private checkLocalStorageState(): void {
+        !this.localstorage.haslocalStorage('listOfSearches')
+            ? this.clearListOfSearches()
+            : this.listOfSearches = this.localstorage.getData('listOfSearches');
     }
 }

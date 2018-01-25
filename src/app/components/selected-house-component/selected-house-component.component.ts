@@ -36,12 +36,12 @@ export class SelectedHouseComponentComponent implements OnInit {
         this.list.setData(dataOfHouse);
     }
 
-    public removeFromFaves(dataOfHouse: any): void{
+    public removeFromFaves(dataOfHouse: any): void {
         this.flagOfFaves = false;
         this.list.deleteElementFromList(dataOfHouse);
     }
 
-    public checkingOfUniq (house: any): void{
+    public checkingOfUniq (house: any): void {
         this.flagOfFaves = this.list.chekingOfUniq(house);
     }
 

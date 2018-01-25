@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SelectedHouseService {
-  public selectedHouseData: any;
-  constructor() {}
+    public selectedHouseData: any;
 
-  public getData(): any{
-    return this.selectedHouseData;
-  };
+    constructor() {}
 
-  public setData(house): void{
-    this.selectedHouseData = house;
-  };
+    public getData(): any {
+        return this.selectedHouseData;
+    }
+
+    public setData(house): void {
+        this.selectedHouseData = house;
+    }
 }

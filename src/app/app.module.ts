@@ -6,10 +6,10 @@ import { JsonpModule, Jsonp, Response} from '@angular/http';
 
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { SearchComponentComponent } from './components/search-component/search-component.component';
-import { HomeComponentComponent } from './components/home-component/home-component.component';
+import { SearchComponent } from './components/search-component/search-component.component';
+import { HomeComponent } from './components/home-component/home-component.component';
 import { SelectedHouseComponentComponent } from './components/selected-house-component/selected-house-component.component';
-import { FavesComponentComponent } from './components/faves-component/faves-component.component';
+import { FavesComponent } from './components/faves-component/faves-component.component';
 import { SelectedHouseService } from './services/selected-house-service/selected-house.service';
 import { DataFromServerService } from './services/data-from-server-service/data-from-server.service';
 import { ListFavesService } from './services/list-faves-service/list-faves.service';
@@ -21,10 +21,10 @@ import { LocalStorageService } from './services/local-storage-service/local-stor
 @NgModule({
   declarations: [
     AppComponent,
-    SearchComponentComponent,
-    HomeComponentComponent,
+    SearchComponent,
+    HomeComponent,
     SelectedHouseComponentComponent,
-    FavesComponentComponent
+    FavesComponent
   ],
   imports: [
     BrowserModule,
